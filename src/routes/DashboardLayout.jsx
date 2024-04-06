@@ -76,17 +76,17 @@ export default function DashboardLayout(props) {
           <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0">
                   <a
                     href="#"
-                    className="flex h-16 w-16 items-center justify-center bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20"
+                    className="flex h-16 w-16 items-center justify-center bg-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20"
                   >
                     <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                      className="h-auto w-auto"
+                      src="https://t3.ftcdn.net/jpg/01/91/23/48/360_F_191234860_3zfDAlZpUe0ZCgIkPEzkDjpMdogcr7uk.jpg"
                       alt="Your Company"
                     />
                   </a>
                 </div>
           {/* Desktop nav area */}
-          <div className="hidden md:flex md:min-w-0 md:flex-1 md:items-center md:justify-between">
+          <div className=" ml-10 hidden md:flex md:min-w-0 md:flex-1 md:items-center md:justify-between">
             <div className="min-w-0 flex-1">
               <div className="relative max-w-2xl text-gray-400 focus-within:text-gray-500">
                 <label htmlFor="desktop-search" className="sr-only">
@@ -96,9 +96,9 @@ export default function DashboardLayout(props) {
                   id="desktop-search"
                   type="search"
                   placeholder="Search"
-                  className="block w-full border-transparent pl-12 placeholder-gray-500 focus:border-transparent focus:ring-0 sm:text-sm"
+                  className=" border-gray-900 rounded-3xl block w-full border-transparent pl-12 placeholder-gray-500 focus:border-gray-900 focus:ring-0 sm:text-sm"
                 />
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-4">
+                <div className=" pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-4">
                   <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
                 </div>
               </div>

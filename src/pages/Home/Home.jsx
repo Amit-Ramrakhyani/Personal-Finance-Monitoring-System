@@ -222,7 +222,7 @@ const pieGraph = {
 export default function Example() {
   return (
     <div> 
-      <div className="bg-gray-800 ml-10 mr-10 py-10">
+      <div className="bg-gray-800 ml-10 mr-10 py-10 rounded-xl">
         <div className="mx-auto max-w-7xl px-6 lg:flex lg:justify-between lg:px-8">
           <div className="max-w-xxl">
             <h2 className="text-4xl font-bold tracking-tight text-white sm:text-2xl lg:text-4xl">Welcome 👋</h2>
@@ -256,7 +256,6 @@ export default function Example() {
                       color="gray"
                       className="max-w-sm font-normal"
                     >
-                      Visualize your data in a simple way using the @material-tailwind/react chart plugin.
                     </Typography>
                   </div>
                 </CardHeader>
@@ -268,7 +267,7 @@ export default function Example() {
           </div>
 
           <div className="w-full sm:w-1/3 p-4">
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg shadow-lg p-6">
               <Card>
                 <CardHeader
                   floated={false}
@@ -288,7 +287,6 @@ export default function Example() {
                       color="gray"
                       className="max-w-sm font-normal"
                     >
-                      Visualize your data in a simple way using the @material-tailwind/react chart plugin.
                     </Typography>
                   </div>
                 </CardHeader>
@@ -320,7 +318,6 @@ export default function Example() {
                       color="gray"
                       className="max-w-sm font-normal"
                     >
-                      Visualize your data in a simple way using the @material-tailwind/react chart plugin.
                     </Typography>
                   </div>
                 </CardHeader>
