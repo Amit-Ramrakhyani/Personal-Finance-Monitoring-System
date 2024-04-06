@@ -7,7 +7,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Pages & Layouts
 import DashboardLayout from "./routes/DashboardLayout";
 import HomePage from "./pages/Home/Home";
+import TransPage from "./pages/TransPage/Transpage";
 import LoginPage from "./pages/Auth/Login";
+import BudgetPage from "./pages/Budget/Budget";
+import GoalsPage from "./pages/Budget/Goals";
 
 // Components
 import LoadingSpinner from "./components/Loading";
@@ -21,6 +24,23 @@ const router = createBrowserRouter([
           <HomePage />
         </ProtectedRoute>
       )},
+      { path: "/transactions", element: (
+        <ProtectedRoute>
+          <TransPage />
+        </ProtectedRoute>
+      )},
+      { path: "/budget", element: (
+        <ProtectedRoute>
+          <BudgetPage />
+        </ProtectedRoute>
+      )},
+      {
+        path: "/goals", element: (
+          <ProtectedRoute>
+            <GoalsPage />
+          </ProtectedRoute>
+        )
+      }
     ],
   },
   {
@@ -32,12 +52,12 @@ const router = createBrowserRouter([
 export default () => {
   const [loading, setLoading] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   // Simulate an API call or any asynchronous operation
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 0);
-  // }, []);
+  React.useEffect(() => {
+    // Simulate an API call or any asynchronous operation
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   
   return (
@@ -46,7 +66,6 @@ export default () => {
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>)
-
     }
     </>
   );
