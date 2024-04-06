@@ -11,6 +11,7 @@ import TransPage from "./pages/TransPage/Transpage";
 import LoginPage from "./pages/Auth/Login";
 import BudgetPage from "./pages/Budget/Budget";
 import GoalsPage from "./pages/Budget/Goals";
+import Profile from "./pages/Profile/Profile";
 
 // Components
 import LoadingSpinner from "./components/Loading";
@@ -38,6 +39,13 @@ const router = createBrowserRouter([
         path: "/goals", element: (
           <ProtectedRoute>
             <GoalsPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/profile", element: (
+          <ProtectedRoute>
+            <Profile />
           </ProtectedRoute>
         )
       }
