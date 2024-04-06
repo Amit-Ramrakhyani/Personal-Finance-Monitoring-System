@@ -1,64 +1,29 @@
 import React from "react";
 import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import {
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
-import {
-  ArchiveBoxIcon,
-  Bars3Icon,
-  BellIcon,
-  FlagIcon,
-  InboxIcon,
-  NoSymbolIcon,
-  PencilSquareIcon,
-  UserCircleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { TransAPI } from "../../api"
+import moment from 'moment';
 
-const user = {
-  name: "Whitney Francis",
-  email: "whitney.francis@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
-const navigation = [
-  {
-    name: "Inboxes",
-    href: "#",
-    children: [
-      { name: "Technical Support", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "General", href: "#" },
-    ],
-  },
-  { name: "Reporting", href: "#", children: [] },
-  { name: "Settings", href: "#", children: [] },
-];
-const sidebarNavigation = [
-  { name: "Open", href: "#", icon: InboxIcon, current: true },
-  { name: "Archive", href: "#", icon: ArchiveBoxIcon, current: false },
-  { name: "Customers", href: "#", icon: UserCircleIcon, current: false },
-  { name: "Flagged", href: "#", icon: FlagIcon, current: false },
-  { name: "Spam", href: "#", icon: NoSymbolIcon, current: false },
-  { name: "Drafts", href: "#", icon: PencilSquareIcon, current: false },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Example() {
+
+  const [transactions, setTransactions] = useState([]);
+  console.log("Transactions: ", transactions)
   React.useEffect(() => {
     document.title = "Dashboard";
-  });
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const transactions = [
+
+    const fetchTransactions = async () => {
+      try {
+        const transactions = await TransAPI.listAllTranscations();
+        setTransactions(transactions);
+      }
+      catch (error) {
+        console.error("Error fetching transactions: ", error);
+        alert("Error fetching transactions: ", error);
+      }
+    };
+    fetchTransactions();
+  }, []);
+  const transactionsx = [
     {
       id: "AAPS0L",
       company: "Chase & Co.",
@@ -68,7 +33,6 @@ export default function Example() {
       quantity: "12.00",
       netAmount: "$4,397.00",
     },
-    // More transactions...
   ];
 
   return (
@@ -115,41 +79,41 @@ export default function Example() {
                               >
                                 Transaction ID
                               </th>
-                              <th
+                              {/* <th
                                 scope="col"
                                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                               >
                                 Company
+                              </th> */}
+                              <th
+                                scope="col"
+                                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                              >
+                                Time
                               </th>
                               <th
                                 scope="col"
                                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                               >
-                                Share
+                                Category
                               </th>
                               <th
                                 scope="col"
                                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                               >
-                                Commision
+                                Amount
                               </th>
                               <th
                                 scope="col"
                                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                               >
-                                Price
+                                Description
                               </th>
                               <th
                                 scope="col"
                                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                               >
-                                Quantity
-                              </th>
-                              <th
-                                scope="col"
-                                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                              >
-                                Net amount
+                                Merchants
                               </th>
                               <th
                                 scope="col"
@@ -165,20 +129,20 @@ export default function Example() {
                                 <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
                                   {transaction.id}
                                 </td>
-                                <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+                                {/* <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
                                   {transaction.company}
-                                </td>
+                                </td> */}
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                                  {transaction.share}
+                                  {moment(transaction.transaction_date).format('MMMM Do YYYY, h:mm:ss a')}
                                 </td>
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                  {transaction.commission}
+                                  {transaction.category}
                                 </td>
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                  {transaction.price}
+                                  {transaction.amount}
                                 </td>
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                  {transaction.quantity}
+                                  {transaction.description}
                                 </td>
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                                   {transaction.netAmount}
