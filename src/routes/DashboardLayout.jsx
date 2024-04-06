@@ -42,7 +42,7 @@ const navigation = [
 ];
 const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon, current: true },
-  { name: "Projects", href: "/project", icon: FolderOpenIcon, current: false },
+  { name: "Transactions", href: "/transactions", icon: FolderOpenIcon, current: false },
   { name: "Customers", href: "#", icon: UserCircleIcon, current: false },
   { name: "Flagged", href: "#", icon: FlagIcon, current: false },
   { name: "Spam", href: "#", icon: NoSymbolIcon, current: false },

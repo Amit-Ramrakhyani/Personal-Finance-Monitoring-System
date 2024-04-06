@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Pages & Layouts
 import DashboardLayout from "./routes/DashboardLayout";
 import HomePage from "./pages/Home/Home";
+import TransPage from "./pages/TransPage/Transpage";
 import LoginPage from "./pages/Auth/Login";
 
 // Components
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
           <HomePage />
         </ProtectedRoute>
       )},
+      { path: "/transactions", element: (
+        <ProtectedRoute>
+          <TransPage />
+        </ProtectedRoute>
+      )}
     ],
   },
   {
@@ -32,12 +38,12 @@ const router = createBrowserRouter([
 export default () => {
   const [loading, setLoading] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   // Simulate an API call or any asynchronous operation
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 0);
-  // }, []);
+  React.useEffect(() => {
+    // Simulate an API call or any asynchronous operation
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   
   return (
