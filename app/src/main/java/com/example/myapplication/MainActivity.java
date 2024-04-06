@@ -32,7 +32,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 class MessageSender {
-    public void sendMessage(String message, String sender) {
+    public void sendMessage(String message, String sender, String sentStamp, String receivedStamp, String sim) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -51,7 +51,7 @@ class MessageSender {
 
             // Enable output and set content length
             conn.setDoOutput(true);
-            byte[] postData = ("{\"test\": \"" + message + "\", \"from\": \"" + sender + "\", \"sentStamp\" : \"1234\" , \"receivedStamp\": \"1234\", \"sim\" : \"sim1\"}").getBytes(StandardCharsets.UTF_8);
+            byte[] postData = ("{\"test\": \"" + message + "\", \"from\": \"" + sender + "\", \"sentStamp\" : "+sentStamp+"  , \"receivedStamp\": \""+receivedStamp+"\", \"sim\" : \""+sim+"\"}").getBytes(StandardCharsets.UTF_8);
             conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
             // Write data to the connection's output stream
@@ -83,10 +83,48 @@ class MessageSender {
 }
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     private SmsReceiver smsReceiver;
+    private class SmsReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Retrieves a map of extended data from the intent.
+            final Bundle bundle = intent.getExtras();
+
+            try {
+                if (bundle != null) {
+                    final Object[] pdusObj = (Object[]) bundle.get("pdus");
+                    if (pdusObj != null) {
+                        for (Object pduObj : pdusObj) {
+                            SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pduObj);
+                            String senderNum = currentMessage.getDisplayOriginatingAddress();
+                            String message = currentMessage.getDisplayMessageBody();
+
+                            // Here you can process the incoming SMS, for example, display a Toast message
+//
+
+                            // Send the SMS message to the server
+                            
+                            String sentStamp = String.valueOf(currentMessage.getTimestampMillis());
+                            String sim = currentMessage.getSubscriptionId();
+                            String receivedStamp = String.valueOf(System.currentTimeMillis());
+                            MessageSender sender = new MessageSender();
+                            sender.sendMessage(message, senderNum, sentStamp, receivedStamp, sim);
+
+                            // make asynctask to send message to server
+
+                            Toast.makeText(context, "Sender: " + senderNum + ", Message: " + message, Toast.LENGTH_LONG).show();
+
+
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,41 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Inner class for handling SMS received
-    private class SmsReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Retrieves a map of extended data from the intent.
-            final Bundle bundle = intent.getExtras();
 
-            try {
-                if (bundle != null) {
-                    final Object[] pdusObj = (Object[]) bundle.get("pdus");
-                    if (pdusObj != null) {
-                        for (Object pduObj : pdusObj) {
-                            SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pduObj);
-                            String senderNum = currentMessage.getDisplayOriginatingAddress();
-                            String message = currentMessage.getDisplayMessageBody();
-
-                            // Here you can process the incoming SMS, for example, display a Toast message
-//
-
-                            // Send the SMS message to the server
-                            MessageSender sender = new MessageSender();
-                            sender.sendMessage(message, senderNum);
-
-                            // make asynctask to send message to server
-
-                            Toast.makeText(context, "Sender: " + senderNum + ", Message: " + message, Toast.LENGTH_LONG).show();
-
-
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     // Method to request RECEIVE_SMS permission if not granted
     private void requestReceiveSmsPermission() {
