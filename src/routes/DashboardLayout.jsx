@@ -18,7 +18,10 @@ import {
   XMarkIcon,
   Square2StackIcon,
   HomeIcon,
-  FolderOpenIcon
+  FolderOpenIcon,
+  QueueListIcon,
+  ChartPieIcon,
+  TrophyIcon
 } from "@heroicons/react/24/outline";
 
 const user = {
@@ -27,30 +30,15 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const navigation = [
-  {
-    name: "Inboxes",
-    href: "#",
-    children: [
-      { name: "Technical Support", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "General", href: "#" },
-    ],
-  },
-  { name: "Reporting", href: "#", children: [] },
-  { name: "Settings", href: "#", children: [] },
-];
 const sidebarNavigation = [
-  { name: "Home", href: "/", icon: HomeIcon, current: true },
-  { name: "Transactions", href: "/transactions", icon: FolderOpenIcon, current: false },
-  { name: "Customers", href: "#", icon: UserCircleIcon, current: false },
-  { name: "Flagged", href: "#", icon: FlagIcon, current: false },
-  { name: "Spam", href: "#", icon: NoSymbolIcon, current: false },
-  { name: "Drafts", href: "#", icon: PencilSquareIcon, current: false },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Home", href: "/", icon: HomeIcon},
+  { name: "Transactions", href: "/transactions", icon: QueueListIcon },
+  { name: "Budgets", href: "/budget", icon: ChartPieIcon, },
+  { name: "Goals", href: "/goals", icon:   TrophyIcon },
+  { name: "Customers", href: "#", icon: UserCircleIcon, },
+  { name: "Flagged", href: "#", icon: FlagIcon, },
+  { name: "Spam", href: "#", icon: NoSymbolIcon, },
+  { name: "Drafts", href: "#", icon: PencilSquareIcon, },
 ];
 
 function classNames(...classes) {
@@ -60,12 +48,10 @@ function classNames(...classes) {
 
 
 export default function DashboardLayout(props) {
-  console.log(props)
+  console.log("Dashboard ->", props.index)
   React.useEffect(() => {
     document.title = props.title;
   })
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
@@ -205,7 +191,7 @@ export default function DashboardLayout(props) {
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        item.current
+                        (window.location.pathname === item.href)
                           ? "bg-gray-900 text-white"
                           : "text-gray-400 hover:bg-gray-700",
                         "flex-shrink-0 inline-flex items-center justify-center h-14 w-14 rounded-lg"

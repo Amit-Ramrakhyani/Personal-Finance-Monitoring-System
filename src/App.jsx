@@ -9,6 +9,8 @@ import DashboardLayout from "./routes/DashboardLayout";
 import HomePage from "./pages/Home/Home";
 import TransPage from "./pages/TransPage/Transpage";
 import LoginPage from "./pages/Auth/Login";
+import BudgetPage from "./pages/Budget/Budget";
+import GoalsPage from "./pages/Budget/Goals";
 
 // Components
 import LoadingSpinner from "./components/Loading";
@@ -26,7 +28,19 @@ const router = createBrowserRouter([
         <ProtectedRoute>
           <TransPage />
         </ProtectedRoute>
-      )}
+      )},
+      { path: "/budget", element: (
+        <ProtectedRoute>
+          <BudgetPage />
+        </ProtectedRoute>
+      )},
+      {
+        path: "/goals", element: (
+          <ProtectedRoute>
+            <GoalsPage />
+          </ProtectedRoute>
+        )
+      }
     ],
   },
   {
@@ -52,7 +66,6 @@ export default () => {
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>)
-
     }
     </>
   );

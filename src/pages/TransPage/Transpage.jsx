@@ -9,7 +9,7 @@ export default function Example() {
   const [transactions, setTransactions] = useState([]);
   console.log("Transactions: ", transactions)
   React.useEffect(() => {
-    document.title = "Dashboard";
+    document.title = "Your Transactions | Finance Manager";
 
     const fetchTransactions = async () => {
       try {
@@ -23,17 +23,6 @@ export default function Example() {
     };
     fetchTransactions();
   }, []);
-  const transactionsx = [
-    {
-      id: "AAPS0L",
-      company: "Chase & Co.",
-      share: "CAC",
-      commission: "+$4.37",
-      price: "$3,509.00",
-      quantity: "12.00",
-      netAmount: "$4,397.00",
-    },
-  ];
 
   return (
     <>
