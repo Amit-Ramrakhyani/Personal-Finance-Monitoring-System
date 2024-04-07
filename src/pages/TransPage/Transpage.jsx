@@ -11,7 +11,7 @@ import {
 
 export default function Example() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true );
+  const [open, setOpen] = useState(false );
 
   const [formData, setFormData] = useState({
     amount: "",
@@ -316,7 +316,7 @@ export default function Example() {
                                 </td> */}
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                                   {moment(transaction.transaction_date).format(
-                                    "MMMM Do YYYY, h:mm:ss a"
+                                    "MMMM Do ,  YYYY"
                                   )}
                                 </td>
                                 <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
