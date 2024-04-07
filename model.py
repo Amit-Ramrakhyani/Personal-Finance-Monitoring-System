@@ -11,7 +11,7 @@ import os
 
 load_dotenv()
 
-def piecharrt(df, start_date, end_date):
+def piechart(df, start_date, end_date):
     df['transaction_date'] = pd.to_datetime(df['transaction_date'])
     filtered_df = df[(df['transaction_date'] >= start_date) & (df['transaction_date'] <= end_date)]
     debit_df = filtered_df[filtered_df['transaction_type']=="Debit"]['amount'].sum()
@@ -73,48 +73,48 @@ def line_graph(df, start_date, end_date):
 
 def plot_savings(df, start_date, end_date):
 
-        transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
-        filtered_df = df[(transaction_date >= start_date) & (transaction_date <= end_date)]
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+    filtered_df = df[(transaction_date >= start_date) & (transaction_date <= end_date)]
 
+    total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
+    total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
+
+    savings = total_income - total_spent
+
+    dates = pd.date_range(start=start_date, end=end_date)
+
+    savings = []
+    for date in dates:
+        filtered_df = df[(df['transaction_date'] >= start_date) & (df['transaction_date'] <= date)]
         total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
         total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
+        savings.append(total_income - total_spent)
 
-        savings = total_income - total_spent
+    try:
+        with open('data.json', 'r') as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.decoder.JSONDecodeError):
+        data = {}
 
-        dates = pd.date_range(start=start_date, end=end_date)
+    # Convert Timestamp keys to strings
+    savings_dict = {str(date): float(amount) for date, amount in zip(dates, savings)}
 
-        savings = []
-        for date in dates:
-            filtered_df = df[(df['transaction_date'] >= start_date) & (df['transaction_date'] <= date)]
-            total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
-            total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
-            savings.append(total_income - total_spent)
+    # Update JSON data
+    data['linechart'] = {'savings': savings_dict} 
 
-        try:
-            with open('data.json', 'r') as f:
-                data = json.load(f)
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            data = {}
+    # Write JSON data back to the file
+    with open('data.json', 'w') as f:
+        json.dump(data, f)       
 
-        # Convert Timestamp keys to strings
-        savings_dict = {str(date): float(amount) for date, amount in zip(dates, savings)}
-
-        # Update JSON data
-        data['linechart'] = {'savings': savings_dict} 
-
-        # Write JSON data back to the file
-        with open('data.json', 'w') as f:
-            json.dump(data, f)       
-
-        plt.figure(figsize=(10, 6))
-        plt.plot(dates, savings, marker='o', linestyle='-')
-        plt.title('Savings Over Time')
-        plt.xlabel('Date')
-        plt.ylabel('Savings')
-        plt.xticks(rotation=45)
-        plt.grid(True)
-        plt.tight_layout()
-        plt.show()
+    plt.figure(figsize=(10, 6))
+    plt.plot(dates, savings, marker='o', linestyle='-')
+    plt.title('Savings Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Savings')
+    plt.xticks(rotation=45)
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
 def outliers():
     grouped_data = df.groupby('category')['amount'].apply(list).reset_index()
@@ -151,6 +151,99 @@ def line_graph_outliers():
 
         plt.show()
 
+def monthly_savings(df, date):
+    date = pd.to_datetime(date, utc=True)
+    month = date.month
+
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+    filtered_df = df[transaction_date.dt.month == month]
+
+    total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
+    total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
+
+    savings = total_income - total_spent
+    return savings
+
+def weekly_savings(df, date):
+    date = pd.to_datetime(date, utc=True)
+    start_date = date - pd.DateOffset(weeks=1)
+    end_date = date
+
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+    filtered_df = df[(transaction_date >= start_date) & (transaction_date <= end_date)]
+
+    total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
+    total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
+
+    savings = total_income - total_spent
+    return savings
+
+def average_savings(df):
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+
+    total_income = df[df['transaction_type'] == "Credit"]['amount'].sum()
+    total_spent = df[df['transaction_type'] == "Debit"]['amount'].sum()
+
+    savings = total_income - total_spent / len(df)
+    return savings
+
+def monthly_expense(df, date):
+    date = pd.to_datetime(date, utc=True)
+    month = date.month
+
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+
+    filtered_df = df[transaction_date.dt.month == month]
+    
+    total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
+    return total_spent
+
+def weekly_expense(df, date):
+    date = pd.to_datetime(date, utc=True)
+    start_date = date - pd.DateOffset(weeks=1)
+    end_date = date
+
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+    filtered_df = df[(transaction_date >= start_date) & (transaction_date <= end_date)]
+
+    total_spent = filtered_df[filtered_df['transaction_type'] == "Debit"]['amount'].sum()
+    return total_spent
+
+def average_expense(df):
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+
+    total_spent = df[df['transaction_type'] == "Debit"]['amount'].sum()
+    return total_spent / len(df)
+
+def monthly_income(df, date):
+
+    date = pd.to_datetime(date, utc=True)
+    month = date.month
+
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+    filtered_df = df[transaction_date.dt.month == month]
+
+    total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
+    return total_income
+
+def weekly_income(df, date):
+    date = pd.to_datetime(date, utc=True)
+    start_date = date - pd.DateOffset(weeks=1)
+    end_date = date
+
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+    filtered_df = df[(transaction_date >= start_date) & (transaction_date <= end_date)]
+
+    total_income = filtered_df[filtered_df['transaction_type'] == "Credit"]['amount'].sum()
+    return total_income
+
+def average_income(df):
+    transaction_date = pd.to_datetime(df['transaction_date'], utc=True)
+
+    total_income = df[df['transaction_type'] == "Credit"]['amount'].sum()
+    return total_income / len(df)
+
+
 if __name__ == '__main__':
     # Load data from mongoDB
     client = MongoClient(os.getenv("MONGODB_CLIENT_URI"))
@@ -161,13 +254,17 @@ if __name__ == '__main__':
     print(df.head())
 
     start_date = input("Enter the start date in the format YYYY-MM-DD: ")
-    end_date = input("Enter the end date in the format YYYY-MM-DD: ")
+    # end_date = input("Enter the end date in the format YYYY-MM-DD: ")
 
     start_date = pd.to_datetime(start_date, utc=True)
-    end_date = pd.to_datetime(end_date, utc=True)
+    # end_date = pd.to_datetime(end_date, utc=True)
 
-    piecharrt(df, start_date, end_date)
-    line_graph(df, start_date, end_date)
-    plot_savings(df, start_date, end_date)
-    print(outliers())
-    line_graph_outliers()
+    print("Monthly Expense: ", monthly_expense(df, start_date))
+    print("Weekly Expense: ", weekly_expense(df, start_date))
+    print("Average Expense: ", average_expense(df))
+    print("Monthly Income: ", monthly_income(df, start_date))
+    print("Weekly Income: ", weekly_income(df, start_date))
+    print("Average Income: ", average_income(df))
+    print("Monthly Savings: ", monthly_savings(df, start_date))
+    print("Weekly Savings: ", weekly_savings(df, start_date))
+    print("Average Savings: ", average_savings(df))
