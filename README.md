@@ -37,6 +37,13 @@ Submission by Team Delta IV for the WittyHacks.
 | Auto SMS Transactions Tracking | ✅ |
 | Message based Quering (raw text) | ✅ 
 
+### Work:
+
+@amit - AI Model
+@dev - Bot Integration & Android
+@puja - React Developer
+@abhisht - System Intergration & Cloud
+
 
 ### Technical Choices:
 
