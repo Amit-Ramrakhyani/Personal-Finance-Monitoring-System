@@ -128,3 +128,61 @@ def expense():
     return jsonify({'monthly_expense': x, 'weekly_expense': y, 'average_expense': z, 'monthly_savings': a, 'weekly_savings': b, 'average_savings': c})
 
 
+## Separate the routes for the different analysis functions
+# Define route to calculate monthly savings
+@analysis_bp.route('/analysis/monthly_savings', methods=['POST'])
+def monthly_savings_route():
+    data = collection.find()
+    df = pd.DataFrame(list(data))
+
+    start_date = pd.to_datetime("2024-04-01", utc=True)
+
+    a = monthly_savings(df, start_date)
+
+    return jsonify({'monthly_savings': a})
+
+# Define route to calculate weekly savings
+@analysis_bp.route('/analysis/weekly_savings', methods=['POST'])
+def weekly_savings_route():
+    data = collection.find()
+    df = pd.DataFrame(list(data))
+
+    start_date = pd.to_datetime("2024-04-01", utc=True)
+
+    a = weekly_savings(df, start_date)
+
+    return jsonify({'weekly_savings': a})
+
+# Define route to calculate average savings
+@analysis_bp.route('/analysis/average_savings', methods=['POST'])
+def average_savings_route():
+    data = collection.find()
+    df = pd.DataFrame(list(data))
+
+    a = average_savings(df)
+
+    return jsonify({'average_savings': a})
+
+# Define route to calculate monthly expense
+@analysis_bp.route('/analysis/monthly_expense', methods=['POST'])
+def monthly_expense_route():
+    data = collection.find()
+    df = pd.DataFrame(list(data))
+
+    start_date = pd.to_datetime("2024-04-01", utc=True)
+
+    a = monthly_expense(df, start_date)
+
+    return jsonify({'monthly_expense': a})
+
+# Define route to calculate weekly expense
+@analysis_bp.route('/analysis/weekly_expense', methods=['POST'])
+def weekly_expense_route():
+    data = collection.find()
+    df = pd.DataFrame(list(data))
+
+    start_date = pd.to_datetime("2024-04-01", utc=True)
+
+    a = weekly_expense(df, start_date)
+
+    return jsonify({'weekly_expense': a})
