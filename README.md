@@ -1,27 +1,64 @@
-# Money Management App
+# Delta IV WH15 - FinTech 
+
+Submission by Team Delta IV for the WittyHacks.
+
+**How to Run**
+
+- First clone branches: `frontend` , `backend` and `backend-api` and `Android` from the main repo.
+
+- ~~Run Python Query App (Install all dependencies first)
+`python3 app.py`~~
+
+- Go to http://localhost:3174, the UI will be loaded (Read the Operator Guider before Proceeding)
+- All API's are hosted in  ` http://localhost:5000/logger `
+ Read the API References before Proceeding.
 
 
-A smart finance manager aimed at empowering users to achieve financial wellness through effective management of their finances.
+
+ 
+## **How to Operate**
+ - All major services will take some time and use atlest 8GiB of Memory during Startup. Its a **MicroService Architecture**, so running all standalone services in one machine will eat up some memory.
+
+ - Go to http://localhost:3174, the UI will be loaded
+ - Create User Account and Start Using the System.
+ - There are other features like **Goals** and **Investments** which are still under development.
+
+## Features
+|Features| In Service |
+|-|--|
+|  Finance Management  | ✅ |
+| Telegram & Whatsapp Bot Integration |✅ |
+| Good Looking UI | ✅ |
+| Google Assistant Integration | ❌ | 
+| Real/Near Real-Time MLOps |  *✅ |
+| Multi-Parameters | ✅ |
+| Range: Time based | ✅ |
+| Range: Date based | ✅ |
+| Auto SMS Transactions Tracking | ✅ |
+| Message based Quering (raw text) | ✅ 
 
 
-# Features
+### Technical Choices:
 
-**Financial Tracking:** Provide users with tools to track their spending, investments, and earnings in one centralized platform.
-Community Engagement: Foster a community aspect where users can share tips, strategies, and insights related to financial management.
+-   **Express and Kafka:**
+    
+    -   Express server handles HTTP.
+    -   Kafka serves as a scalable and fault-tolerant message broker.
+-   **Elasticsearch:**
+    
+    -   Elasticsearch provides real-time indexing and powerful search capabilities, suitable for efficient log data storage.
+-   **Consumer  (Node.js/Python):**
+    
+    -   Choice of Node.js for the consumer service allows flexibility based on team expertise and preferences.
 
-**Monthly Scoring System:** Implement an AI-driven scoring system that evaluates users financial habits and provides them with a monthly score. This score reflects their financial health and allows users to track their progress over time.
+<br>
 
-**Leaderboard:** Maintain a leaderboard to showcase top-performing users based on their monthly scores, encouraging healthy competition and motivation.
+Technology WE Used:
 
-**Voice Assistant Integration:** Enable users to interact with the platform using voice commands through voice assistants, minimizing friction and enhancing accessibility.
+- **Python** (For Querying and Searching)
+- **NodeJS** (For Handling Concurrency, can be replace with GoLang, but im familer with express more than Go)
+ - **Apache Kafka** (Partition=1)
+ - **Elastic Search** (Also added Full Text Search Capabilities)
+ - **Docker** (*Microservices Architecture*, So that we can deploy services on multiple server for fault tolerence)
+ - **REACTJS for UI** *(Still under development)*
 
-
-# Benefits
-
-**Empowerment:** Empower users to take control of their finances and make informed decisions.
-
-**Education:** Educate users about financial management principles and help them develop healthy financial habits.
-
-**Accessibility:** Ensure accessibility for users of all levels by offering a user-friendly interface and voice command options.
-
-**Motivation:** Foster a sense of competition and motivation through the monthly scoring system and leaderboard.
