@@ -39,9 +39,9 @@ Submission by Team Delta IV for the WittyHacks.
 
 ### Work:
 
-@amit - AI Model
-@dev - Bot Integration & Android
-@puja - React Developer
+@amit - AI Engineer
+@dev - Bot Integration & Android Developer
+@puja - MERN Stack Developer
 @abhisht - System Intergration & Cloud
 
 
@@ -51,9 +51,7 @@ Submission by Team Delta IV for the WittyHacks.
     
     -   Express server handles HTTP.
     -   Kafka serves as a scalable and fault-tolerant message broker.
--   **Elasticsearch:**
-    
-    -   Elasticsearch provides real-time indexing and powerful search capabilities, suitable for efficient log data storage.
+
 -   **Consumer  (Node.js/Python):**
     
     -   Choice of Node.js for the consumer service allows flexibility based on team expertise and preferences.
@@ -65,7 +63,6 @@ Technology WE Used:
 - **Python** (For Querying and Searching)
 - **NodeJS** (For Handling Concurrency, can be replace with GoLang, but im familer with express more than Go)
  - **Apache Kafka** (Partition=1)
- - **Elastic Search** (Also added Full Text Search Capabilities)
  - **Docker** (*Microservices Architecture*, So that we can deploy services on multiple server for fault tolerence)
  - **REACTJS for UI** *(Still under development)*
 
